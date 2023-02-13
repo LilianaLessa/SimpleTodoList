@@ -1,16 +1,10 @@
 import React from "react";
-import { Text } from 'react-native-paper';
-import {StatusBar, StyleSheet} from "react-native";
-import Constants from "expo-constants";
+import {Appbar} from 'react-native-paper';
 
 export const TodoListTitle = () => {
   return (
-      <Text variant="titleLarge" style={styles.test}>Todo List</Text>
+    <Appbar.Header>
+      <Appbar.Content title="Todo List" />
+    </Appbar.Header>
   );
 };
-
-const styles = StyleSheet.create({
-  test: {
-    marginTop: StatusBar.currentHeight ?? Constants.statusBarHeight,
-  },
-});

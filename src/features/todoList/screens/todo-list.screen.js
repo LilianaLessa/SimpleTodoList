@@ -1,51 +1,11 @@
-import React, {useState} from "react";
+import * as React from 'react';
+import {StyleSheet, View, FlatList} from "react-native";
 import {TodoListTitle} from "../components/todo-list-title.component";
-import {FlatList, SafeAreaView, View, StyleSheet} from "react-native";
-import {
-  Checkbox,
-  IconButton,
-  MD3Colors,
-  Text,
-  TextInput
-} from "react-native-paper";
+import {TaskListItem} from "../components/task-list-item.component";
+import {useState} from "react";
 import 'react-native-get-random-values';
-const TaskListItem = ({item, onPressCallback}) => {
-
-  const [checked, setChecked] = React.useState(item.done);
-
-  const handleDone = () => {
-    item.done = !item.done;
-    setChecked(item.done);
-  }
-
-  const styles = StyleSheet.create({
-    taskDone:{
-      textDecorationLine: 'line-through'
-    },
-    taskOpen:{
-
-    },
-  })
-
-  return (
-    <View>
-      <Checkbox
-        status={checked ? 'checked' : 'unchecked'}
-        onPress={handleDone}
-      />
-      <Text variant="bodyMedium" style={checked ? styles.taskDone : styles.taskOpen}>{item.name}</Text>
-      <IconButton
-        icon="delete"
-        iconColor={MD3Colors.primary30}
-        size={20}
-        onPress={() => onPressCallback(item) }
-      />
-    </View>
-  );
-};
-
-
-import {v4 as uuidv4} from 'uuid';
+import {v4 as uuidv4} from "uuid";
+import {TextInput} from "react-native-paper";
 
 export const TodoListScreen = () => {
   const [newTask, setNewTask] = useState("");
@@ -70,9 +30,9 @@ export const TodoListScreen = () => {
   }
 
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
       <TodoListTitle />
-      <View>
+      <View style={styles.newTaskInputContainer}>
         <TextInput
           label="New Task"
           value={newTask}
@@ -80,7 +40,7 @@ export const TodoListScreen = () => {
           onSubmitEditing={addTask}
         />
       </View>
-      <View>
+      <View style={styles.list}>
         <FlatList
           data={tasks}
           renderItem={({item}) => <TaskListItem
@@ -90,6 +50,25 @@ export const TodoListScreen = () => {
           keyExtractor={task => `${task.id}_key`}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignSelf: "stretch",
+    justifyContent: "flex-start"
+  },
+  list: {
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    justifyContent: "flex-start"
+  },
+  newTaskInputContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+  }
+});
